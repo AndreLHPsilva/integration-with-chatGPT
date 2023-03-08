@@ -28,7 +28,8 @@ export default function Home() {
   const handleClick = async () => {
     setIsLoading(true);
     const headers = {
-      Authorization: `Bearer ${process.env.NEXT_PUBLIC_KEY_OPENIA}`,
+      "Authorization": `Bearer ${process.env.NEXT_PUBLIC_KEY_OPENIA}`,
+      "OpenAI-Organization": `org-UOd2F0adEd8v9km3yvNZslIu`,
       "Content-Type": "application/json",
     };
 
