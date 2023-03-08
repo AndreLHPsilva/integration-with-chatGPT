@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 
 export default function Home() {
@@ -6,11 +6,29 @@ export default function Home() {
   const [question, setQuestion] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
+  const [isDarkTheme, setIsDarkTheme] = useState(false);
+
+  useEffect(() => {
+    const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
+    setIsDarkTheme(prefersDarkScheme.matches);
+
+    // Observar mudanças na preferência do usuário
+    const handleChange = () => setIsDarkTheme(prefersDarkScheme.matches);
+    prefersDarkScheme.addListener(handleChange);
+
+    return () => {
+      prefersDarkScheme.removeListener(handleChange);
+    };
+  }, []);
+
+  const toggleTheme = () => {
+    setIsDarkTheme(!isDarkTheme);
+  };
+
   const handleClick = async () => {
     setIsLoading(true);
     const headers = {
-      Authorization:
-        "Bearer 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",
+      Authorization: `Bearer ${process.env.NEXT_PUBLIC_KEY_OPENIA}`,
       "Content-Type": "application/json",
     };
 
@@ -47,7 +65,11 @@ export default function Home() {
                   id="message"
                   value={question}
                   rows="4"
-                  className="w-[325px] md:max-w-md bg-transparent p-5 rounded-lg border-none focus:outline-none resize-none font-normal text-gray-700"
+                  className={
+                    isDarkTheme
+                      ? "w-[325px] md:max-w-md bg-transparent p-5 rounded-lg border-none focus:outline-none resize-none font-normal text-white"
+                      : "w-[325px] md:max-w-md bg-transparent p-5 rounded-lg border-none focus:outline-none resize-none font-normal text-gray-700"
+                  }
                   placeholder="Me faça uma pergunta..."
                   onChange={(event) => setQuestion(event.target.value)}
                 ></textarea>
@@ -79,7 +101,13 @@ export default function Home() {
               </div>
             ) : (
               <div className="w-[325px] md:max-w-md  overflow-hidden py-5 px-2">
-                <p className="h-40 w-full overflow-y-scroll text-center text-sm">
+                <p
+                  className={
+                    isDarkTheme
+                      ? "h-40 w-full overflow-y-scroll text-center text-sm text-white"
+                      : "h-40 w-full overflow-y-scroll text-center text-sm text-gray-700"
+                  }
+                >
                   {message}
                 </p>
               </div>
@@ -95,6 +123,12 @@ export default function Home() {
             </button>
           </div>
         </div>
+        <button
+          className="rounded-md p-2 text-blue-400 hover:text-blue-800 hover:underline transition-colors"
+          onClick={toggleTheme}
+        >
+          Alternar Cor das letras
+        </button>
       </div>
     </>
   );
