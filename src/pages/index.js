@@ -28,7 +28,7 @@ export default function Home() {
   const handleClick = async () => {
     setIsLoading(true);
     const headers = {
-      "Authorization": `Bearer ${process.env.NEXT_PUBLIC_KEY_OPENIA}`,
+      Authorization: `Bearer ${process.env.NEXT_PUBLIC_KEY_OPENIA}`,
       "OpenAI-Organization": `org-UOd2F0adEd8v9km3yvNZslIu`,
       "Content-Type": "application/json",
     };
@@ -58,6 +58,7 @@ export default function Home() {
   return (
     <>
       <div className="h-[100vh] w-full flex flex-col justify-center items-center bg-blue-50">
+        <h1 className="text-xl mb-10 text-blue-900">Faça uma pergunta para o ChatGPT.</h1>
         <div className="w-[325px] md:max-w-md">
           <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
             <div class="p-5">
